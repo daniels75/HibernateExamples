@@ -28,7 +28,7 @@ public class Employee {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @Column(name = "version_num")
+    @Column(name = "version")
     @Version
     private int version;
 

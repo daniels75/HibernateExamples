@@ -18,7 +18,7 @@ public class Department {
     @Column(name="department_name")
     private String departmentName;
 
-    @Column(name = "version_num")
+    @Column(name = "version")
     @Version
     private int version;
 
