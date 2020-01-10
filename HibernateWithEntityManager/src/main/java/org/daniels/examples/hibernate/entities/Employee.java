@@ -6,13 +6,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Employee.FIND_ALL, query = "SELECT e FROM Employee e order by e.firstName"),
+        @NamedQuery(name = Employee.FIND_ALL, query = "SELECT e FROM Employee e order by e.firstName")
 })
 @Entity
 @Table(name="EMPLOYEE")
 public class Employee {
 
     public static final String FIND_ALL = "FIND_ALL_EMPLOYEES";
+    public static final String DELETE_ALL = "DELETE_ALL_EMPLOYEES";
 
     @Id
     @GeneratedValue
