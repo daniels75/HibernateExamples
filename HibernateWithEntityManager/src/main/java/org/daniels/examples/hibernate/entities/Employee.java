@@ -8,10 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@NamedQueries({
+        @NamedQuery(name = Employee.FIND_ALL, query = "SELECT e FROM Employee e order by e.firstName"),
+})
 @Entity
 @Table(name="EMPLOYEE")
 public class Employee {
+
+    public static final String FIND_ALL = "FIND_ALL_EMPLOYEES";
 
     @Id
     @GeneratedValue

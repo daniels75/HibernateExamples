@@ -2,11 +2,14 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-    <persistence-unit name="sample" >
+    <persistence-unit name="sample">
 
+        <class>org.daniels.examples.hibernate.entities.Address</class>
         <class>org.daniels.examples.hibernate.entities.Department</class>
+        <class>org.daniels.examples.hibernate.entities.Employee</class>
 
         <!-- H2 config -->
+        <!--
         <properties>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="false" />
@@ -17,9 +20,10 @@
             <property name="javax.persistence.jdbc.password" value="" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
         </properties>
+        -->
 
         <!-- MySQL config -->
-        <!--
+
         <properties>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="false" />
@@ -30,7 +34,7 @@
             <property name="hibernate.connection.username" value="root" />
             <property name="hibernate.connection.password" value="wodna33" />
         </properties>
-        -->
+
 
 
 
