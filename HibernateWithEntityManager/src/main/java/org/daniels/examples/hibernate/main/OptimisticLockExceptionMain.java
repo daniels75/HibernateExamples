@@ -3,6 +3,7 @@ package org.daniels.examples.hibernate.main;
 import org.daniels.examples.hibernate.entities.Employee;
 import org.daniels.examples.hibernate.repository.EmployeeCrud;
 import org.daniels.examples.hibernate.repository.EmployeeCrudImpl;
+import org.daniels.examples.hibernate.util.HibernateUtil;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class OptimisticLockExceptionMain {
         List<Employee> employees = employeeCrud.findAllEmployee();
         if (!employees.isEmpty()) {
             Employee employee = employees.get(0);
-            employee.setFirstName("Roland4");
+            employee.setFirstName("Roland9");
             employeeCrud.updateEmployee(employee);
 
             // Optimistic lock exception

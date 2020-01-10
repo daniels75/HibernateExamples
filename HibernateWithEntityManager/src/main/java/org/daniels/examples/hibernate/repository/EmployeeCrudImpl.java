@@ -8,11 +8,6 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class EmployeeCrudImpl implements EmployeeCrud {
-	private EntityManager em;
-
-	public EmployeeCrudImpl(EntityManager em){
-		this.em = em;
-	}
 
 	public EmployeeCrudImpl(){
 	}
