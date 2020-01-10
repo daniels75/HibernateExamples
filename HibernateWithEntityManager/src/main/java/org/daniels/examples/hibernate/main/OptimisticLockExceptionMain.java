@@ -3,21 +3,19 @@ package org.daniels.examples.hibernate.main;
 import org.daniels.examples.hibernate.entities.Employee;
 import org.daniels.examples.hibernate.repository.EmployeeCrud;
 import org.daniels.examples.hibernate.repository.EmployeeCrudImpl;
-import org.daniels.examples.hibernate.util.HibernateUtil;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public class OptimisticLockExceptionMain {
 
+
     public static void main(String args[]) {
-        final EntityManager em = HibernateUtil.createEntityManager();
-        final EmployeeCrud employeeCrud = new EmployeeCrudImpl(em);
+        EmployeeCrud employeeCrud = new EmployeeCrudImpl();
 
         List<Employee> employees = employeeCrud.findAllEmployee();
         if (!employees.isEmpty()) {
             Employee employee = employees.get(0);
-            employee.setFirstName("Roland3");
+            employee.setFirstName("Roland4");
             employeeCrud.updateEmployee(employee);
 
             // Optimistic lock exception
@@ -31,8 +29,6 @@ public class OptimisticLockExceptionMain {
             employee.setFirstName("Roland1");
             employeeCrud.saveEmployee(employee);
         }
-
-        HibernateUtil.closeEntityManager();
     }
 
 }

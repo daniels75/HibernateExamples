@@ -12,11 +12,9 @@ import javax.persistence.Persistence;
 public class HibernateUtil {
 
     private static final String HIBERNATE_ANNOTATION_CFG_XML = "hibernate-annotation.cfg.xml";
-    
-	// Annotation based configuration
-    private static SessionFactory sessionAnnotationFactory;
 
-    private static EntityManager entityManager;
+    // Annotation based configuration
+    private static SessionFactory sessionAnnotationFactory;
 
     private static SessionFactory buildSessionAnnotationFactory() {
         try {
@@ -47,18 +45,10 @@ public class HibernateUtil {
     }
 
     public static EntityManager createEntityManager() {
-        if(entityManager == null){
-            EntityManagerFactory emFactory =
-                    Persistence.createEntityManagerFactory("sample");
-            entityManager =  emFactory.createEntityManager();
-            return entityManager;
-        }
-        return entityManager;
+        EntityManagerFactory emFactory =
+                Persistence.createEntityManagerFactory("sample");
+        return emFactory.createEntityManager();
     }
 
-    public static void closeEntityManager() {
-        if (entityManager != null) {
-            entityManager.close();
-        }
-    }
+
 }
