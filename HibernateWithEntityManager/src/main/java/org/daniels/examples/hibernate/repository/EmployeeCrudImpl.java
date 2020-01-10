@@ -6,26 +6,27 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class EmployeeCrudImpl implements EmployeeCrud {
+	private EntityManager em;
 
-	public Employee saveEmployee(Employee employeeBE) {
-		EntityManager em = EntityManagerUtil.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(employeeBE);
-		em.getTransaction().commit();
-		return employeeBE;
+	public EmployeeCrudImpl(EntityManager em){
+		this.em = em;
 	}
 
-	public Employee updateEmployee(Employee employeeBE) {
-		EntityManager em = EntityManagerUtil.getEntityManager();
+	public Employee saveEmployee(Employee employee) {
 		em.getTransaction().begin();
-		em.merge(employeeBE);
+		em.persist(employee);
 		em.getTransaction().commit();
-		return employeeBE;
+		return employee;
 	}
 
-	@SuppressWarnings("unchecked")
+	public Employee updateEmployee(Employee employee) {
+		em.getTransaction().begin();
+		em.merge(employee);
+		em.getTransaction().commit();
+		return employee;
+	}
+
 	public List<Employee> findAllEmployee() {
-		EntityManager em = EntityManagerUtil.getEntityManager();
 		Query query = em.createNamedQuery(Employee.FIND_ALL);
 		return query.getResultList();
 	}
