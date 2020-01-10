@@ -10,7 +10,6 @@ import java.util.List;
 
 public class OptimisticLockExceptionMain {
 
-
     public static void main(String args[]) {
         final EntityManager em = HibernateUtil.createEntityManager();
         final EmployeeCrud employeeCrud = new EmployeeCrudImpl(em);

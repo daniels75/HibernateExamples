@@ -3,9 +3,6 @@ package org.daniels.examples.hibernate.main;
 import org.daniels.examples.hibernate.entities.Address;
 import org.daniels.examples.hibernate.entities.Department;
 import org.daniels.examples.hibernate.entities.Employee;
-import org.daniels.examples.hibernate.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
