@@ -15,6 +15,7 @@ public class HibernateUtil {
 
     // Annotation based configuration
     private static SessionFactory sessionAnnotationFactory;
+    private static EntityManagerFactory emFactory;
 
     private static SessionFactory buildSessionAnnotationFactory() {
         try {
@@ -44,9 +45,20 @@ public class HibernateUtil {
         return sessionAnnotationFactory;
     }
 
+    public static void createEntityManagerFactory() {
+        if (emFactory == null) {
+            emFactory = Persistence.createEntityManagerFactory("sample");
+        }
+    }
+
+    public static void closeEntityManagerFactory() {
+        if (emFactory != null) {
+            emFactory.close();
+        }
+    }
+
     public static EntityManager createEntityManager() {
-        EntityManagerFactory emFactory =
-                Persistence.createEntityManagerFactory("sample");
+        createEntityManagerFactory();
         return emFactory.createEntityManager();
     }
 

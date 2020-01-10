@@ -5,18 +5,19 @@ import org.daniels.examples.hibernate.repository.EmployeeCrud;
 import org.daniels.examples.hibernate.repository.EmployeeCrudImpl;
 import org.daniels.examples.hibernate.util.HibernateUtil;
 
-import java.util.List;
-
 public class OptimisticLockExceptionMain {
 
 
     public static void main(String args[]) {
         EmployeeCrud employeeCrud = new EmployeeCrudImpl();
 
-        List<Employee> employees = employeeCrud.findAllEmployee();
-        if (!employees.isEmpty()) {
-            Employee employee = employees.get(0);
-            employee.setFirstName("Roland9");
+        try {
+            Employee employee = new Employee();
+            employee.setFirstName("Roland1");
+            employee.setLastName("Hamilton");
+            employeeCrud.saveEmployee(employee);
+
+            employee.setFirstName("Roland2");
             employeeCrud.updateEmployee(employee);
 
             // Optimistic lock exception
@@ -25,11 +26,14 @@ public class OptimisticLockExceptionMain {
             // but here employee still contains "old" version 1
             // during an update javax.persistence.OptimisticLockException is throw
             employeeCrud.updateEmployee(employee);
-        } else {
-            Employee employee = new Employee();
-            employee.setFirstName("Roland1");
-            employeeCrud.saveEmployee(employee);
+
+        } finally {
+            HibernateUtil.closeEntityManagerFactory();
         }
     }
+
+    // SQL
+    // SELECT * FROM hibernateexamples.employee;
+    // DELETE FROM hibernateexamples.employee  where employee_id > 0;
 
 }
