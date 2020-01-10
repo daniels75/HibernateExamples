@@ -28,6 +28,10 @@ public class Employee {
     @JoinColumn(name = "department_id")
     private Department department;
 
+    @Column(name = "version_num")
+    @Version
+    private int version;
+
     @OneToMany(mappedBy="employee")
     private List<Address> addresses = Lists.newArrayList();
 
@@ -75,12 +79,22 @@ public class Employee {
         this.addresses.add(address);
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "employeeId=" + employeeId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", department=" + department +
+                ", version=" + version +
                 ", addresses=" + addresses +
                 '}';
     }

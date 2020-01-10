@@ -18,6 +18,10 @@ public class Department {
     @Column(name="department_name")
     private String departmentName;
 
+    @Column(name = "version_num")
+    @Version
+    private int version;
+
     @OneToMany(mappedBy="department",fetch = FetchType.EAGER)
     private List<Employee> employees = Lists.newArrayList();
 
@@ -49,11 +53,20 @@ public class Department {
         this.employees.add(employee);
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "Department{" +
                 "departmentId=" + departmentId +
                 ", departmentName='" + departmentName + '\'' +
+                ", version=" + version +
                 ", employees=" + employees +
                 '}';
     }
