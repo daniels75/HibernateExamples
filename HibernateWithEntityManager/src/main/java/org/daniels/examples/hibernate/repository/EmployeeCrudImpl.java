@@ -53,7 +53,12 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         EntityManager em = HibernateUtil.createEntityManager();
         em.getTransaction().begin();
         System.out.println("[>WRITE] Before lock PESSIMISTIC_WRITE");
-        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
+
+        // 1st approach with PESSIMISTIC_WRITE we have select for update and find
+        // from readEmployee method cannot read a record from DB
+        // until record is not committed/saved by following commit
+        // 2nd approach - another behavior when PESSIMISTIC_WRITE -> PESSIMISTIC_READ then both can read the same record
+        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
         System.out.println("[>WRITE] employee: " + employee);
         System.out.println("[>WRITE] After lock PESSIMISTIC_WRITE");
         try {
