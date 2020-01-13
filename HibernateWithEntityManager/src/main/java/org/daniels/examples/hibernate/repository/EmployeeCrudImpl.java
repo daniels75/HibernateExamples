@@ -6,7 +6,9 @@ import org.daniels.examples.hibernate.util.HibernateUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class EmployeeCrudImpl implements EmployeeCrud {
@@ -49,6 +51,10 @@ public class EmployeeCrudImpl implements EmployeeCrud {
 
     @Override
     public void updateEmployee(Long id) {
+        // this not needed in fact
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("javax.persistence.lock.timeout", 500L);
+
         System.out.println("[>WRITE] START");
         EntityManager em = HibernateUtil.createEntityManager();
         em.getTransaction().begin();
@@ -58,7 +64,11 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         // from readEmployee method cannot read a record from DB
         // until record is not committed/saved by following commit
         // 2nd approach - another behavior when PESSIMISTIC_WRITE -> PESSIMISTIC_READ then both can read the same record
-        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
+        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE, properties);
+        // SELECT * FROM EMPLOYEE WHERE id=? FOR UPDATE
+        // can be also like:
+        // Employee employee = em.find(Employee.class, id, properties);
+        // em.lock(employee, LockModeType.PESSIMISTIC_WRITE);
         System.out.println("[>WRITE] employee: " + employee);
         System.out.println("[>WRITE] After lock PESSIMISTIC_WRITE");
         try {
@@ -90,6 +100,7 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         em.getTransaction().begin();
         System.out.println("[<READ] Before lock PESSIMISTIC_READ");
         Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
+        // SELECT * FROM EMPLOYEE WHERE id=? LOCK IN SHARE MODE
         System.out.println("[<READ] employee: " + employee);
         em.getTransaction().commit();
         System.out.println("[<READ] After lock PESSIMISTIC_READ");
