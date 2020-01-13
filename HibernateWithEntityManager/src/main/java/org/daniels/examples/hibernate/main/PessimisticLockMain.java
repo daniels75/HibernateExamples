@@ -18,6 +18,7 @@ public class PessimisticLockMain {
 
             Employee employee = new Employee();
             employee.setFirstName("Roland");
+            employee.setLastName("Anderson");
             final Employee savedEmployee = employeeCrud.saveEmployee(employee);
             System.out.println("Created employee: " + employee);
 

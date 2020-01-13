@@ -49,30 +49,31 @@ public class EmployeeCrudImpl implements EmployeeCrud {
 
     @Override
     public void updateEmployee(Long id) {
-        System.out.println("[WRITE] START");
+        System.out.println("[>WRITE] START");
         EntityManager em = HibernateUtil.createEntityManager();
         em.getTransaction().begin();
-        System.out.println("[WRITE] Before lock PESSIMISTIC_WRITE");
+        System.out.println("[>WRITE] Before lock PESSIMISTIC_WRITE");
         Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
-        System.out.println(employee);
-        System.out.println("[WRITE] After lock PESSIMISTIC_WRITE");
+        System.out.println("[>WRITE] employee:" + employee);
+        System.out.println("[>WRITE] After lock PESSIMISTIC_WRITE");
         try {
-            TimeUnit.SECONDS.sleep(1);
-            System.out.println("[WRITE] Waiting 1 second");
+            TimeUnit.SECONDS.sleep(3);
+            System.out.println("[>WRITE] Waiting 3 second");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         employee.setFirstName("XY New Name");
         em.getTransaction().commit();
-        System.out.println("[WRITE] STOP");
+        System.out.println("[>WRITE] STOP");
     }
 
     @Override
     public void readEmployee(Long id) {
-        System.out.println("[READ] START");
+        System.out.println("[<READ] START");
 
         try {
+            System.out.println("[>READ] Waiting 100 millisecond");
             TimeUnit.MILLISECONDS.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -80,12 +81,12 @@ public class EmployeeCrudImpl implements EmployeeCrud {
 
         EntityManager em = HibernateUtil.createEntityManager();
         em.getTransaction().begin();
-        System.out.println("[READ] Before lock PESSIMISTIC_READ");
+        System.out.println("[<READ] Before lock PESSIMISTIC_READ");
         Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
-        System.out.println(employee);
-        System.out.println("[READ] After lock PESSIMISTIC_READ");
+        System.out.println("[<READ] employee: " + employee);
+        System.out.println("[<READ] After lock PESSIMISTIC_READ");
         em.getTransaction().commit();
-        System.out.println("[READ]  STOP");
+        System.out.println("[<READ]  STOP");
     }
 
 }
