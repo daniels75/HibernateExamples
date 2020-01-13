@@ -4,8 +4,10 @@ import org.daniels.examples.hibernate.entities.Employee;
 import org.daniels.examples.hibernate.util.HibernateUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EmployeeCrudImpl implements EmployeeCrud {
 
@@ -43,6 +45,47 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         List<Employee> list = query.getResultList();
         em.close();
         return list;
+    }
+
+    @Override
+    public void updateEmployee(Long id) {
+        System.out.println("[WRITE] START");
+        EntityManager em = HibernateUtil.createEntityManager();
+        em.getTransaction().begin();
+        System.out.println("[WRITE] Before lock PESSIMISTIC_WRITE");
+        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
+        System.out.println(employee);
+        System.out.println("[WRITE] After lock PESSIMISTIC_WRITE");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println("[WRITE] Waiting 1 second");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        employee.setFirstName("XY New Name");
+        em.getTransaction().commit();
+        System.out.println("[WRITE] STOP");
+    }
+
+    @Override
+    public void readEmployee(Long id) {
+        System.out.println("[READ] START");
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        EntityManager em = HibernateUtil.createEntityManager();
+        em.getTransaction().begin();
+        System.out.println("[READ] Before lock PESSIMISTIC_READ");
+        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
+        System.out.println(employee);
+        System.out.println("[READ] After lock PESSIMISTIC_READ");
+        em.getTransaction().commit();
+        System.out.println("[READ]  STOP");
     }
 
 }

@@ -91,13 +91,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "employeeId=" + employeeId +
+        return "Employee: " +
+                " Id=" + employeeId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", department=" + department +
                 ", version=" + version +
-                ", addresses=" + addresses +
                 '}';
     }
 }

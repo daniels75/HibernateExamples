@@ -12,4 +12,6 @@ public interface EmployeeCrud {
 
 	Employee updateEmployee(Employee employee);
 
+	void updateEmployee(Long id);
+	void readEmployee(Long id);
 }
