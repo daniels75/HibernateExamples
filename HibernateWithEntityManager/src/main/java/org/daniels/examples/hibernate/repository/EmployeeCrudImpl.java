@@ -53,8 +53,8 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         EntityManager em = HibernateUtil.createEntityManager();
         em.getTransaction().begin();
         System.out.println("[>WRITE] Before lock PESSIMISTIC_WRITE");
-        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
-        System.out.println("[>WRITE] employee:" + employee);
+        Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
+        System.out.println("[>WRITE] employee: " + employee);
         System.out.println("[>WRITE] After lock PESSIMISTIC_WRITE");
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -65,6 +65,8 @@ public class EmployeeCrudImpl implements EmployeeCrud {
 
         employee.setFirstName("XY New Name");
         em.getTransaction().commit();
+        System.out.println("[<WRITE] After lock PESSIMISTIC_WRITE");
+        System.out.println("[>WRITE] employee: " + employee);
         System.out.println("[>WRITE] STOP");
     }
 
@@ -84,8 +86,8 @@ public class EmployeeCrudImpl implements EmployeeCrud {
         System.out.println("[<READ] Before lock PESSIMISTIC_READ");
         Employee employee = em.find(Employee.class, id, LockModeType.PESSIMISTIC_READ);
         System.out.println("[<READ] employee: " + employee);
-        System.out.println("[<READ] After lock PESSIMISTIC_READ");
         em.getTransaction().commit();
+        System.out.println("[<READ] After lock PESSIMISTIC_READ");
         System.out.println("[<READ]  STOP");
     }
 
